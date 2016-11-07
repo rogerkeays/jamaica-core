@@ -5,17 +5,7 @@ import static org.testng.AssertJUnit.*;
 
 public class html {
 
-    /**
-     * Convert page-relative URLs (e.g. "foo/bar") in the given HTML content
-     * to absolute URLs by preprending the given base URL. URLs relative to
-     * the domain root are not modified (e.g. "/foo/bar").
-     * 
-     * Only src and href attributes are modified. A full list of possible
-     * attributes with URL values can be found at
-     * http://stackoverflow.com/questions/2725156
-     * 
-     * This function does not validate the baseURL.
-     */
+    // make_urls_absolute
     @Test public void make_urls_absolute__processes_relative_urls() {
         assertEquals(make_urls_absolute(
                 "<a href=\"foo/bar.jpg\"/>", "http://example.com"), 

@@ -1,4 +1,4 @@
-package jamaica.core.testing;
+package jamaica.core.exceptions;
 
 import org.testng.SkipException;
 

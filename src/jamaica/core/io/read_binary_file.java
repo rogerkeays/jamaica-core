@@ -1,5 +1,6 @@
 package jamaica.core.io;
 
+import jamaica.core.exceptions.UncheckedIOException;
 import jamaica.core.testing.TestGrouper.JavaLayer;
 import java.io.File;
 import static java.io.File.createTempFile;

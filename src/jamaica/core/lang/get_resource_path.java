@@ -2,8 +2,8 @@ package jamaica.core.lang;
 
 import jamaica.core.testing.TestGrouper.JavaLayer;
 import org.testng.annotations.Test;
-import static jamaica.core.strings.is_empty.is_empty;
-import static org.testng.AssertJUnit.assertEquals;
+import static jamaica.core.functions.strings.*;
+import static org.testng.AssertJUnit.*;
 
 public class get_resource_path implements JavaLayer {
 

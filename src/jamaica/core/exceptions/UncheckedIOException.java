@@ -1,4 +1,4 @@
-package jamaica.core.io;
+package jamaica.core.exceptions;
 
 import java.io.IOException;
 

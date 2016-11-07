@@ -6,6 +6,7 @@ import static org.testng.AssertJUnit.*;
 
 public class strings {
 
+    // is_empty
     @Test public void is_empty__is_true_for_null_value() {
         assertTrue(is_empty(null));
     }

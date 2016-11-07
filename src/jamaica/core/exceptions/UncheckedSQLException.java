@@ -1,4 +1,4 @@
-package jamaica.core.sql;
+package jamaica.core.exceptions;
 
 import java.sql.SQLException;
 

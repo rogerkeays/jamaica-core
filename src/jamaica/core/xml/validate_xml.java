@@ -1,6 +1,6 @@
 package jamaica.core.xml;
 
-import jamaica.core.io.UncheckedIOException;
+import jamaica.core.exceptions.UncheckedIOException;
 import jamaica.core.testing.TestGrouper.APILayer;
 import java.io.IOException;
 import java.io.StringReader;

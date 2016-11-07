@@ -1,9 +1,9 @@
 package jamaica.core.functions;
 
+import jamaica.core.exceptions.UncheckedIOException;
 import java.io.*;
 import java.util.*;
 import org.testng.annotations.*;
-import jamaica.core.io.UncheckedIOException;
 import static jamaica.core.functions.lang.*;
 import static jamaica.core.functions.strings.*;
 import static org.testng.Assert.*;

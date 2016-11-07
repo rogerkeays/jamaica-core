@@ -1,6 +1,6 @@
 package jamaica.core.lang;
 
-import jamaica.core.io.UncheckedIOException;
+import jamaica.core.exceptions.UncheckedIOException;
 import jamaica.core.testing.TestGrouper.JavaLayer;
 import java.io.IOException;
 import org.testng.annotations.Test;

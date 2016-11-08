@@ -1,4 +1,4 @@
-package jamaica.core.lang;
+package jamaica.core.interfaces;
 
 /**
  * Backport of the Java 8 Predicate interface.

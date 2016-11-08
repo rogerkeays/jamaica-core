@@ -1,4 +1,4 @@
-package jamaica.core.lang;
+package jamaica.core.interfaces;
 
 /**
  * Backport of Java 8 Function interface.

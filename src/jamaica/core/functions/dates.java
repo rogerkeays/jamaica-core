@@ -95,17 +95,14 @@ public class dates {
     }
 
 
-    /**
-     * Parse a date in the format "YYYY-mm-dd" into a Java date. The created
-     * date will be 00:00 on the given day in the local timezone.
-     */
     // parse_iso_date
-    @Test public void parse_iso_date__throws_a_parse_exception_for_non_iso_formatted_dates() {
-        try { 
-            parse_iso_date("now"); 
-            fail("expected an UncheckedParseException");
-        }
-        catch (UncheckedParseException e) {}
+    @Test(expectedExceptions=UncheckedParseException.class)
+    public void parse_iso_date__throws_a_parse_exception_for_non_iso_formatted_dates() {
+        parse_iso_date("now"); 
+    }
+    @Test(expectedExceptions=UncheckedParseException.class)
+    public void parse_iso_date__throws_a_parse_exception_for_invalid_dates() {
+        parse_iso_date("2016-13-50"); 
     }
     @Test public void parse_iso_date__creates_a_date_with_suitable_for_the_local_timezone() {
         assertEquals(-1 * TimeZone.getDefault().getOffset(0), parse_iso_date("1970-01-01").getTime());
@@ -120,6 +117,7 @@ public class dates {
             throw new UncheckedParseException("Invalid date format: " + string);
         }
         try {
+            PARSER.setLenient(false);
             return PARSER.parse(string);
         } catch (ParseException e) {
             throw new UncheckedParseException("Invalid date format: " + string, e);

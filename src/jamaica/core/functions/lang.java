@@ -21,6 +21,15 @@ public class lang {
     }
 
 
+    // parse_double
+    @Test public void parse_double__parses_a_string_value_into_the_equivalent_double() {
+        assertEquals(parse_double("5.0"), 5.0);
+    }
+    public static double parse_double(String value) {
+        return Double.valueOf(value);
+    }
+
+
     // sleep
     @Test public void sleep__causes_the_thread_to_pause() {
         long start = currentTimeMillis();

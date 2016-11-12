@@ -47,9 +47,33 @@ public class collections {
     }
 
 
+    // elements_match
+    @Test public void elements_match__returns_true_if_the_elements_of_the_list_are_equal() {
+        assert elements_match(as_list(1, 2, 3), as_list(1, 2, 3));
+    }
+    @Test public void elements_match__returns_false_if_the_lists_do_not_contain_the_same_elements() {
+        assert !elements_match(as_list(1, 2, 3), as_list(1, 2, 4));
+    }
+    @Test public void elements_match__returns_false_if_the_lists_are_not_the_same_size() {
+        assert !elements_match(as_list(1, 2, 3), as_list(1, 2));
+    }
+    public static boolean elements_match(List a, List b) {
+        if (a.size() != b.size()) {
+            return false;
+        } else {
+            for (int i = 0; i < a.size(); i++) {
+                if (!a.get(i).equals(b.get(i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+
     // map
     @Test public void map__applies_the_function_to_each_collection_element() {
-        assert_elements_match(as_list(2, 3, 4), map(e -> e + 1, as_list(1, 2, 3)));
+        assert elements_match(as_list(2, 3, 4), map(e -> e + 1, as_list(1, 2, 3)));
     }
     @Test public void map__creates_a_new_list_and_leaves_the_initial_one_untouched() {
         List<String> strings = as_list("a", "b", "c");
@@ -89,19 +113,37 @@ public class collections {
 
     // map_array
     @Test public void map_array__applies_the_function_to_each_array_element() {
-        String[] strings = map_array(e -> e.toUpperCase(), new String[] { "a", "b", "c" }, String.class);
+        String[] strings = map_array(String.class, e -> e.toUpperCase(), new String[] { "a", "b", "c" });
         assert strings[0].equals("A");
         assert strings[1].equals("B");
         assert strings[2].equals("C");
     }
     @Test public void map_array__can_create_arrays_of_a_new_type() {
-        assert map_array(e -> parse_double(e), new String[] { "0.1", "0.2", "0.3" }, Double.class)[0] == 0.1;
+        assert map_array(Double.class, e -> parse_double(e), new String[] { "0.1", "0.2", "0.3" })[0] == 0.1;
     }
-    public static <T, R> R[] map_array(Function<T,R> function, T[] array, Class resultType) {
+    @Test public void map_array__accepts_an_error_handling_function() {
+        List<Exception> errors = new LinkedList<Exception>();
+        map_array(Double.class, e -> parse_double(e), new String[] { "a", "b", "0.1" },
+                (exception, index) -> errors.add(exception));
+        assert errors.size() == 2 : "expected 2 exceptions during map";
+    }
+    public static <T, R> R[] map_array(Class resultType, Function<T,R> function, T[] array) {
+        return map_array(resultType, function, array, null);
+    }
+    public static <T, R> R[] map_array(Class resultType, Function<T,R> function, T[] array, 
+            BiConsumer<Exception, Integer> exception_handler) {
         try {
             R[] result = (R[]) Array.newInstance(resultType, array.length);
             for (int i = 0; i < array.length; i++) {
-                result[i] = function.apply(array[i]);
+                if (exception_handler == null) {
+                    result[i] = function.apply(array[i]);
+                } else {
+                    try {
+                        result[i] = function.apply(array[i]);
+                    } catch (Exception e) {
+                        exception_handler.accept(e, i);
+                    }
+                }
             }
             return result;
         } catch (NegativeArraySizeException e) {

@@ -2,6 +2,7 @@ package jamaica.core.functions;
 
 import jamaica.core.interfaces.*;
 import java.util.*;
+import java.lang.reflect.*;
 import org.testng.annotations.*;
 import static org.testng.Assert.*;
 import static jamaica.core.functions.lang.*;
@@ -64,7 +65,6 @@ public class collections {
         assert strings.contains("A");
         assert strings.contains("B");
         assert strings.contains("C");
-
     }
     public static <T, R> Set<R> map(Function<T,R> function, Set<T> set) {
         return (Set<R>) map(function, (Collection<T>) set); 
@@ -83,6 +83,29 @@ public class collections {
             throw new IllegalArgumentException("map() couldn't fork this collection", e);
         } catch (IllegalAccessException e) {
             throw new IllegalArgumentException("map() couldn't fork this collection", e);
+        }
+    }
+
+
+    // map_array
+    @Test public void map_array__applies_the_function_to_each_array_element() {
+        String[] strings = map_array(e -> e.toUpperCase(), new String[] { "a", "b", "c" }, String.class);
+        assert strings[0].equals("A");
+        assert strings[1].equals("B");
+        assert strings[2].equals("C");
+    }
+    @Test public void map_array__can_create_arrays_of_a_new_type() {
+        assert map_array(e -> parse_double(e), new String[] { "0.1", "0.2", "0.3" }, Double.class)[0] == 0.1;
+    }
+    public static <T, R> R[] map_array(Function<T,R> function, T[] array, Class resultType) {
+        try {
+            R[] result = (R[]) Array.newInstance(resultType, array.length);
+            for (int i = 0; i < array.length; i++) {
+                result[i] = function.apply(array[i]);
+            }
+            return result;
+        } catch (NegativeArraySizeException e) {
+            throw new IllegalArgumentException("map() couldn't fork this array", e);
         }
     }
 }

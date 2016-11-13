@@ -7,6 +7,20 @@ import static org.testng.Assert.*;
 
 public class lang {
 
+    // are_equal
+    public static boolean are_equal(Object o1, Object o2) {
+        if (o1 == null && o2 == null) {
+            return true;
+        } else if (o1 == null && o2 != null) {
+            return false;
+        } else if (o2 == null && o1 != null) {
+            return false;
+        } else {
+            return o1.equals(o2);
+        }
+    }
+
+
     // if_null
     @Test public void if_null__returns_the_first_parameter_if_it_is_not_null() {
         String notNull = "Hello";

@@ -57,9 +57,11 @@ public class testing {
         } catch (Exception e) {
             if (type.isInstance(e)) {
                 return;
+            } else {
+                throw new AssertionError("expected a " + type.getName() + " but got " + e.getClass());
             }
         }
-        throw new AssertionError("expected an " + type.getName());
+        throw new AssertionError("expected a " + type.getName());
     }
 
 

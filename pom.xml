@@ -23,18 +23,33 @@
   
   <build>
     <plugins>
+
+      <!-- Java 1.8 with retrolambda -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
-          <debug>true</debug>
-          <showDeprecation>false</showDeprecation>
         </configuration>
       </plugin>
-       
+      <plugin>
+        <groupId>net.orfjackal.retrolambda</groupId>
+        <artifactId>retrolambda-maven-plugin</artifactId>
+        <version>1.8.1</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>process-main</goal>
+                    <goal>process-test</goal>
+                </goals>
+            </execution>
+        </executions>
+        <configuration>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+ 
       <!-- unit test configuration -->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>

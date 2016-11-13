@@ -23,7 +23,7 @@ public class net implements NetworkLayer {
     @Test public void is_tcp_port_open__checks_the_port_on_the_given_ip_address() throws Exception {
         final ServerSocket socket = new ServerSocket(0);
         assertTrue(is_tcp_port_open("127.0.0.1", socket.getLocalPort()));
-        //BROKEN! assertFalse(is_tcp_port_open("168.2.4.10", socket.getLocalPort())); 
+        // assertFalse(is_tcp_port_open("168.2.4.10", socket.getLocalPort()));  // BROKEN!!
     }
     public static boolean is_tcp_port_open(int port) {
         return is_tcp_port_open("127.0.0.1", port); 

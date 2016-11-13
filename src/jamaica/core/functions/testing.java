@@ -78,6 +78,16 @@ public class testing {
     }
 
 
+    // create_random_string
+    @Test public void create_random_string__creates_two_unique_strings_when_called_twice() {
+        assert_that(!create_random_string().equals(create_random_string()));
+    }
+    public static String create_random_string() {
+        sleep(1);
+        return String.valueOf(System.currentTimeMillis());
+    }
+
+
     // fail
     @Test public void fail__throws_an_assertion_error() {
         try {

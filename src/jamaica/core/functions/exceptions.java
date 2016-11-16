@@ -2,10 +2,27 @@ package jamaica.core.functions;
 
 import java.util.*;
 import jamaica.core.exceptions.*;
+import jamaica.core.types.*;
 import org.testng.annotations.*;
 import static jamaica.core.functions.collections.*;
+import static jamaica.core.functions.testing.*;
 
 public class exceptions {
+
+    // add_tuple
+    @Test public void add_tuple__creates_and_adds_a_tuple_to_an_exception_tuples_list_from_the_given_params() {
+        ExceptionTuples errors = new ExceptionTuples(); 
+        add_tuple(errors, 10, new NumberFormatException());
+        assert_that(errors.list.size() == 1);
+        assert_that(errors.list.get(0).one == 10);
+        assert_that(errors.list.get(0).two instanceof NumberFormatException);
+    }
+    public static Tuple<Integer, Exception> add_tuple(ExceptionTuples errors, Integer one, Exception two) {
+        Tuple<Integer, Exception> tuple = new Tuple<>(one, two);
+        errors.list.add(tuple);
+        return tuple;
+    }
+
 
     // reduce_exception
     @Test public void reduce_exception__groups_exceptions_by_class() {

@@ -21,14 +21,29 @@ public class lang {
     }
 
 
+    // coalesce
+    @Test public void coalesce__returns_the_first_object_if_is_not_null() {
+        assertEquals(coalesce("String", "Alternative"), "String");
+    }
+    @Test public void coalesce__returns_the_second_object_if_the_first_is_null() {
+        assertEquals(coalesce(null, "Alternative"), "Alternative");
+    }
+    @Test public void coalesce__returns_the_second_object_if_the_first_is_an_empty_string() {
+        assertEquals(coalesce("", "Alternative"), "Alternative");
+    }
+    public static <T extends Object> T coalesce(T $1, T $2) {
+        return $1 == null || "".equals($1) ? $2 : $1;
+    }
+
+
     // if_null
     @Test public void if_null__returns_the_first_parameter_if_it_is_not_null() {
         String notNull = "Hello";
         assertEquals(if_null(notNull, () -> "World"), "Hello");
     }
     @Test public void if_null__executes_the_code_block_if_the_first_parameter_is_null() {
-        String notNull = null;
-        assertEquals(if_null(notNull, () -> "World"), "World");
+        String Null = null;
+        assertEquals(if_null(Null, () -> "World"), "World");
     }
     public static <T> T if_null(T object, Supplier<T> block) {
         return object != null ? object : block.get();

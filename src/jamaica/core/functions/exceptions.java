@@ -7,6 +7,7 @@ import jamaica.core.types.*;
 import org.testng.annotations.*;
 import static jamaica.core.functions.collections.*;
 import static jamaica.core.functions.testing.*;
+import static org.testng.Assert.*;
 
 public class exceptions {
 
@@ -22,6 +23,20 @@ public class exceptions {
         Tuple<Exception, Integer> tuple = new Tuple<>(one, two);
         errors.list.add(tuple);
         return tuple;
+    }
+
+
+    // get_root_cause
+    @Test public void get_root_cause__returns_the_cause_used_to_instantiate_an_exception() {
+        Throwable a = new Throwable();
+        assertEquals(get_root_cause(new Throwable(a)), a);
+    }
+    public static Throwable get_root_cause(Throwable t) {
+        Throwable result = t;
+        while (result.getCause() != null) {
+            result = result.getCause();
+        }
+        return result;
     }
 
 

@@ -1,5 +1,6 @@
 package jamaica.core.functions;
 
+import java.io.*;
 import java.util.*;
 import jamaica.core.exceptions.*;
 import jamaica.core.types.*;
@@ -49,5 +50,18 @@ public class exceptions {
         }
         locations.get(type).add(location);
         return map;
+    }
+
+
+    // throw_checked
+    @Test(expectedExceptions=IOException.class)
+    public void throw__checked_throws_a_checked_exception_without_being_declared_in_the_method_body() {
+        throw_checked(new IOException());
+    }
+    public static void throw_checked(Exception e) {
+        exceptions.<RuntimeException>throw_checked_hack(e);
+    }
+    private static <E extends Exception> void throw_checked_hack(Exception e) throws E {
+        throw (E) e;
     }
 }

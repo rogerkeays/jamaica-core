@@ -1,9 +1,9 @@
 package jamaica.core.functions;
 
-import jamaica.core.exceptions.UncheckedIOException;
 import java.io.*;
 import java.util.*;
 import org.testng.annotations.*;
+import static jamaica.core.functions.exceptions.*;
 import static jamaica.core.functions.lang.*;
 import static jamaica.core.functions.strings.*;
 import static org.testng.Assert.*;
@@ -23,9 +23,9 @@ public class io {
 
 
     // get_lines
-    @Test public void get_lines__throws_an_unchecked_io_exception_if_the_file_doesnt_exist() {
-        try { get_lines("this file doesn't exist"); fail("expected an io exception"); } 
-        catch (UncheckedIOException ioe) {}
+    @Test(expectedExceptions=IOException.class)
+     public void get_lines__throws_an_io_exception_if_the_file_doesnt_exist() {
+        get_lines("this file doesn't exist");
     }
     @Test public void get_lines__parses_an_empty_file_to_an_empty_array() {
         assertEquals(get_lines(write_tmp_file("")).length, 0);
@@ -71,30 +71,38 @@ public class io {
     @Test public void read_text_file__parses_an_empty_file_into_an_empty_string() {
         assertEquals(read_text_file(write_tmp_file("")), "");
     }
+    @Test public void read_text_file__reads_long_files_in_their_entirety() {
+        assertEquals(read_text_file(write_tmp_file(new String(new char[129000]))).length(), 129000);
+    }
     public static String read_text_file(String filename) {
         return read_text_file(new File(filename));
     }
     public static String read_text_file(File file) {
-        Scanner scanner = null;
+        DataInputStream stream = null;
         try {
-            scanner = new Scanner(file).useDelimiter("\\Z");
-            return scanner.next();
-        } catch (IOException ioe) {
-            throw new UncheckedIOException(ioe);
-        } catch (NoSuchElementException e) {
-            return "";
+            stream = new DataInputStream(new FileInputStream(file));
+            byte[] bytes = new byte[(int) file.length()];
+            stream.readFully(bytes);
+            return new String(bytes, "UTF-8");
+        } catch (Exception e) {
+            throw_checked(e); 
         } finally {
-            if (scanner != null) {
-                scanner.close();
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    throw_checked(e);
+                }
             }
         }
+        return null;
     }
 
 
     // write_text_file
-    @Test public void write_text_file__throws_an_io_exception_if_it_cannot_write_the_file() {
-        try { write_text_file("/hello.txt", "Hello World"); fail("expected an io exception"); } 
-        catch (UncheckedIOException ioe) {}
+    @Test(expectedExceptions=IOException.class)
+    public void write_text_file__throws_an_io_exception_if_it_cannot_write_the_file() {
+        write_text_file("/hello.txt", "Hello World");
     }
     @Test public void write_text_file__creates_a_file_on_disk() {
         File file = write_text_file(create_test_filename(), "Hello World");
@@ -114,14 +122,15 @@ public class io {
             writer.write(content);
             return file;
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            throw_checked(e);
+            return null;
         } finally {
-            try {
-                if (writer != null) {
+            if (writer != null) {
+                try {
                     writer.close();
+                } catch (IOException e) {
+                    throw_checked(e);
                 }
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
             }
         }
     }
@@ -142,7 +151,8 @@ public class io {
             tmp.deleteOnExit();
             return write_text_file(tmp, content);
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            throw_checked(e);
+            return null;
         }
     }
 }

@@ -104,12 +104,9 @@ public class dates {
     public void parse_iso_date__throws_a_parse_exception_for_invalid_dates() {
         parse_iso_date("2016-13-50"); 
     }
-    @Test public void parse_iso_date__creates_a_date_with_suitable_for_the_local_timezone() {
-        assertEquals(-1 * TimeZone.getDefault().getOffset(0), parse_iso_date("1970-01-01").getTime());
-    } 
-    @Test public void parse_iso_date__creates_a_date_with_time_00_00_in_the_local_timezone() {
+    @Test public void parse_iso_date__creates_a_date_with_time_12_00_in_the_local_timezone() {
         Date date = parse_iso_date("1970-01-01");
-        assertEquals(0, date.getHours());
+        assertEquals(12, date.getHours());
         assertEquals(0, date.getMinutes());
     }
     public static Date parse_iso_date(String string) {
@@ -118,7 +115,7 @@ public class dates {
         }
         try {
             PARSER.setLenient(false);
-            return PARSER.parse(string);
+            return new Date(PARSER.parse(string).getTime() + 12 * MS_PER_HOUR);
         } catch (ParseException e) {
             throw new UncheckedParseException("Invalid date format: " + string, e);
         }

@@ -35,8 +35,7 @@ public class csv {
     public static String format_parse_errors(ExceptionTuples errors) {
         return format_parse_errors(errors, null);
     }
-    public static String format_parse_errors(ExceptionTuples errors,
-            Function<Throwable, String> localisation_function) {
+    public static String format_parse_errors(ExceptionTuples errors, Function<Throwable, String> localisation_function) {
         final StringBuilder result = new StringBuilder();
         for (Tuple<Exception, Integer> tuple : errors.list) {
             result.append(format(localise("Line {0}: "), tuple.two))
@@ -45,14 +44,5 @@ public class csv {
                 .append("\n");
         }
         return result.toString();
-    }
-
-
-    // localise_exception
-    @Test public void localise_exception__shows_the_exception_class_and_message() {
-        assertEquals(localise_exception(new NumberFormatException("foo")), "NumberFormatException: foo");
-    }
-    private static String localise_exception(Throwable t) {
-        return t.getClass().getSimpleName() + ": " + t.getMessage();
     }
 }

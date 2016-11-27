@@ -12,11 +12,57 @@ import static jamaica.core.functions.testing.*;
 
 public class io {
 
+    // process_lines
+    @Test public void process_lines__executes_the_processing_function_on_each_line_in_the_file() {
+        List<String> lines = new LinkedList<>();
+        process_lines(write_tmp_file("1\n2\n3\n4"), line -> lines.add(line));
+        assert_equals(4, lines.size());
+    }
+    @Test public void process_lines__collects_processing_exceptions_using_an_exception_tuples() {
+        try {
+            process_lines(write_tmp_file("1\n2\n3\n4"), line -> { throw new NumberFormatException(line); });
+            fail("expected exception tuples");
+        } catch (ExceptionTuples errors) {
+            assert_equals(4, errors.list.size());
+        }
+    }
+    public static File process_lines(File file, Consumer<String> processing_function) {
+        BufferedReader reader = null;
+        try {
+            int i = 1;
+            reader = new BufferedReader(new FileReader(file));
+            final ExceptionTuples errors = new ExceptionTuples();
+            for (String line; (line = reader.readLine()) != null; i++) {
+                try {
+                    processing_function.accept(line);
+                } catch (Exception e) {
+                    add_tuple(errors, e, i);
+                }
+            }
+            if (errors.list.isEmpty()) {
+                return file;
+            } else {
+                throw errors;
+            }
+        } catch (FileNotFoundException e) {
+            throw checked(e); 
+        } catch (IOException e) {
+            throw checked(e);
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    throw checked(e);
+                }
+            }
+        }
+    }
+
 
     // get_lines
-    @Test(expectedExceptions=IOException.class)
-     public void get_lines__throws_an_io_exception_if_the_file_doesnt_exist() {
-        get_lines("this file doesn't exist");
+    @Test public void get_lines__throws_an_io_exception_if_the_file_doesnt_exist() {
+        assert_throws(IOException.class, () -> get_lines("this file doesn't exist"));
     }
     @Test public void get_lines__parses_an_empty_file_to_an_empty_array() {
         assert_equals(get_lines(write_tmp_file("")).length, 0);
@@ -75,7 +121,9 @@ public class io {
             byte[] bytes = new byte[(int) file.length()];
             stream.readFully(bytes);
             return new String(bytes, "UTF-8");
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
+            throw checked(e); 
+        } catch (IOException e) {
             throw checked(e); 
         } finally {
             if (stream != null) {
@@ -90,9 +138,8 @@ public class io {
 
 
     // write_text_file
-    @Test(expectedExceptions=IOException.class)
-    public void write_text_file__throws_an_io_exception_if_it_cannot_write_the_file() {
-        write_text_file("/hello.txt", "Hello World");
+    @Test public void write_text_file__throws_an_io_exception_if_it_cannot_write_the_file() {
+        assert_throws(IOException.class, ()-> write_text_file("/hello.txt", "Hello World"));
     }
     @Test public void write_text_file__creates_a_file_on_disk() {
         File file = write_text_file(create_test_filename(), "Hello World");

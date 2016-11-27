@@ -12,7 +12,7 @@ public class testing {
         assert_contains("hay", "haystack");
     }
     @Test public void assert_contains__throws_an_assertion_error_if_the_haystack_does_not_contain_the_needle() {
-        assert_throws(AssertionError.class, () -> assert_contains("haystack", "hay"));
+        assert_throws(AssertionError.class, ()-> assert_contains("haystack", "hay"));
     }
     public static void assert_contains(String needle, String haystack) {
         if (!haystack.contains(needle)) {
@@ -26,13 +26,13 @@ public class testing {
         assert_equals(1, 1);
     }
     @Test public void assert_equals__throws_an_assertion_error_if_the_parameters_are_mismatching_integers() {
-        assert_throws(AssertionError.class, () -> assert_equals(1, 2));
+        assert_throws(AssertionError.class, ()-> assert_equals(1, 2));
     }
     @Test public void assert_equals__does_nothing_if_the_parameters_are_matching_strings() {
         assert_equals("Hello", "Hello");
     }
     @Test public void assert_equals__throws_an_assertion_error_if_the_parameters_are_mismatching_strings() {
-        assert_throws(AssertionError.class, () -> assert_equals("Hello", "World"));
+        assert_throws(AssertionError.class, ()-> assert_equals("Hello", "World"));
     }
     @Test public void assert_equals__provides_a_message_with_the_expected_and_actual_values() {
         try {
@@ -51,17 +51,17 @@ public class testing {
 
     // assert_throws
     @Test public void assert_throws__does_nothing_when_the_block_throws_an_exception_of_the_given_type() {
-        assert_throws(NumberFormatException.class, () -> parse_double("foo"));
+        assert_throws(NumberFormatException.class, ()-> parse_double("foo"));
     }
     @Test public void assert_throws__throws_an_assertion_error_when_the_block_does_not_throw_an_exception() {
         try {
-            assert_throws(NumberFormatException.class, () -> parse_double("1.0"));
+            assert_throws(NumberFormatException.class, ()-> parse_double("1.0"));
             fail("expected an assertion error");
         } catch (AssertionError e) {}
     }
     @Test public void assert_throws__throws_an_assertion_error_when_the_block_throws_an_exception_of_the_wrong_type() {
         try {
-            assert_throws(IllegalArgumentException.class, () -> parse_double("foo"));
+            assert_throws(IllegalArgumentException.class, ()-> parse_double("foo"));
             fail("expected an assertion error");
         } catch (AssertionError e) {}
     }
@@ -84,7 +84,7 @@ public class testing {
         assert_true(1 == 1);
     }
     @Test public void assert_true__throws_an_assertion_error_if_the_condition_evaluates_to_false() {
-        assert_throws(AssertionError.class, assert_true(1 == 2));
+        assert_throws(AssertionError.class, ()-> assert_true(1 == 2));
     }
     @Test public void assert_true__includes_the_given_message_in_the_assertion_exception_if_it_is_supplied() {
         try {
@@ -129,7 +129,7 @@ public class testing {
 
     // fail
     @Test public void fail__throws_an_assertion_error() {
-        assert_throws(AssertionError.class, () -> fail());
+        assert_throws(AssertionError.class, ()-> fail());
     }
     @Test public void fail__includes_the_given_message_in_the_exception_if_it_supplied() {
         try {

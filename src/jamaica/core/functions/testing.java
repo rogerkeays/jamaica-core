@@ -2,7 +2,6 @@ package jamaica.core.functions;
 
 import java.util.*;
 import org.testng.annotations.*;
-import static org.testng.Assert.*;
 import static jamaica.core.functions.collections.*;
 import static jamaica.core.functions.lang.*;
 
@@ -119,10 +118,10 @@ public class testing {
 
     // create_test_filename
     @Test public void create_test_filename__uses_the_target_directory() {
-        assertTrue(create_test_filename().startsWith("target/"));
+        assert_true(create_test_filename().startsWith("target/"));
     }
     @Test public void create_test_filename__creates_unique_filenames() {
-        assertNotEquals(create_test_filename(), create_test_filename());
+        assert_true(not(are_equal(create_test_filename(), create_test_filename())));
     }
     public static String create_test_filename() {
         sleep(1);

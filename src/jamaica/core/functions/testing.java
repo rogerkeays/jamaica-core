@@ -84,16 +84,14 @@ public class testing {
         assert_true(1 == 1);
     }
     @Test public void assert_true__throws_an_assertion_error_if_the_condition_evaluates_to_false() {
-        try {
-            assert_true(1 == 2);
-            fail("expected an assertion error");
-        } catch (AssertionError e) {}
+        assert_throws(AssertionError.class, assert_true(1 == 2));
     }
     @Test public void assert_true__includes_the_given_message_in_the_assertion_exception_if_it_is_supplied() {
         try {
             assert_true(1 == 2, "1 is not 2");
+            fail("expected an assertion error");
         } catch (AssertionError e) {
-            assert_true(e.getMessage().equals("1 is not 2"));
+            assert_equals("1 is not 2", e.getMessage());
         }
     }
     public static void assert_true(boolean condition) {

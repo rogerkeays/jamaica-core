@@ -9,8 +9,50 @@ import static jamaica.core.functions.exceptions.*;
 import static jamaica.core.functions.lang.*;
 import static jamaica.core.functions.strings.*;
 import static jamaica.core.functions.testing.*;
+import static java.util.File.*;
 
 public class io {
+
+    // get_lines
+    @Test public void get_lines__throws_an_io_exception_if_the_file_doesnt_exist() {
+        assert_throws(IOException.class, () -> get_lines("this file doesn't exist"));
+    }
+    @Test public void get_lines__parses_an_empty_file_to_an_empty_array() {
+        assert_equals(get_lines(write_tmp_file("")).length, 0);
+    }
+    @Test public void get_lines__parses_a_single_line_file_to_a_one_element_array() {
+        File tmp = write_tmp_file("Hello");
+        String[] lines = get_lines(tmp);
+        assert_equals(lines.length, 1);
+        assert_equals(lines[0], "Hello");
+    }
+    @Test public void get_lines__parses_a_multi_line_file_to_a_multi_element_array() {
+        File tmp = write_tmp_file("Hello\nWorld");
+        String[] lines = get_lines(tmp);
+        assert_equals(lines.length, 2);
+        assert_equals(lines[0], "Hello");
+        assert_equals(lines[1], "World");
+    }
+    @Test public void get_lines__parses_windows_line_feeds() {
+        File tmp = write_tmp_file("Hello\r\nWorld");
+        String[] lines = get_lines(tmp);
+        assert_equals(lines.length, 2);
+        assert_equals(lines[0], "Hello");
+        assert_equals(lines[1], "World");
+    }
+    @Test public void get_lines__ignores_file_empty_lines() {
+        File tmp = write_tmp_file("Hello\nWorld\n");
+        String[] lines = get_lines(tmp);
+        assert_equals(lines.length, 2);
+    }
+    public static String[] get_lines(String path) {
+        return get_lines(new File(path));
+    }
+    public static String[] get_lines(File file) {
+        String content = read_text_file(file);
+        return is_empty(content) ? new String[] {} : content.split("[\n\r]+");
+    }
+
 
     // process_lines
     @Test public void process_lines__executes_the_processing_function_on_each_line_in_the_file() {
@@ -60,44 +102,38 @@ public class io {
     }
 
 
-    // get_lines
-    @Test public void get_lines__throws_an_io_exception_if_the_file_doesnt_exist() {
-        assert_throws(IOException.class, () -> get_lines("this file doesn't exist"));
+    // read_binary_file
+    @Test public void read_binary_file__can_read_binary_file_from_disk() throws Exception {
+        byte[] data = new byte[] { (byte) 0x05, (byte) 0x13, (byte) 0x44, (byte) 0x99 };
+        File tmp = createTempFile("test", "bin");
+        FileOutputStream output = new FileOutputStream(tmp);
+        output.write(data);
+        output.close();
+        assertEquals(data, read_binary_file(tmp));
     }
-    @Test public void get_lines__parses_an_empty_file_to_an_empty_array() {
-        assert_equals(get_lines(write_tmp_file("")).length, 0);
+    public static byte[] read_binary_file(String filename) {
+        return read_binary_file(new File(filename));
     }
-    @Test public void get_lines__parses_a_single_line_file_to_a_one_element_array() {
-        File tmp = write_tmp_file("Hello");
-        String[] lines = get_lines(tmp);
-        assert_equals(lines.length, 1);
-        assert_equals(lines[0], "Hello");
-    }
-    @Test public void get_lines__parses_a_multi_line_file_to_a_multi_element_array() {
-        File tmp = write_tmp_file("Hello\nWorld");
-        String[] lines = get_lines(tmp);
-        assert_equals(lines.length, 2);
-        assert_equals(lines[0], "Hello");
-        assert_equals(lines[1], "World");
-    }
-    @Test public void get_lines__parses_windows_line_feeds() {
-        File tmp = write_tmp_file("Hello\r\nWorld");
-        String[] lines = get_lines(tmp);
-        assert_equals(lines.length, 2);
-        assert_equals(lines[0], "Hello");
-        assert_equals(lines[1], "World");
-    }
-    @Test public void get_lines__ignores_file_empty_lines() {
-        File tmp = write_tmp_file("Hello\nWorld\n");
-        String[] lines = get_lines(tmp);
-        assert_equals(lines.length, 2);
-    }
-    public static String[] get_lines(String path) {
-        return get_lines(new File(path));
-    }
-    public static String[] get_lines(File file) {
-        String content = read_text_file(file);
-        return is_empty(content) ? new String[] {} : content.split("[\n\r]+");
+    public static byte[] read_binary_file(File file) {
+        byte[] buffer = new byte[(int) file.length()];
+        InputStream input = null;
+        try {
+            input = new FileInputStream(file);
+            if (input.read(buffer) == -1) {
+                throw checked(new IOException("couldn't read the whole file"));
+            }
+        } catch (IOException e) {
+            throw checked(e);
+        } finally {
+            if (input != null) {
+                try { 
+                    input.close();
+                } catch (IOException e) {
+                    throw checked(e);
+                }
+            }
+        }
+        return buffer;
     }
 
 

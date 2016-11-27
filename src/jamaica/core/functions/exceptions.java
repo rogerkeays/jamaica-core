@@ -15,9 +15,9 @@ public class exceptions {
     @Test public void add_tuple__creates_and_adds_a_tuple_to_an_exception_tuples_list_from_the_given_params() {
         ExceptionTuples errors = new ExceptionTuples(); 
         add_tuple(errors, new NumberFormatException(), 10);
-        assert_that(errors.list.size() == 1);
-        assert_that(errors.list.get(0).one instanceof NumberFormatException);
-        assert_that(errors.list.get(0).two == 10);
+        assert_true(errors.list.size() == 1);
+        assert_true(errors.list.get(0).one instanceof NumberFormatException);
+        assert_true(errors.list.get(0).two == 10);
     }
     public static Tuple<Exception, Integer> add_tuple(ExceptionTuples errors, Exception one, Integer two) {
         Tuple<Exception, Integer> tuple = new Tuple<>(one, two);
@@ -37,6 +37,15 @@ public class exceptions {
             result = result.getCause();
         }
         return result;
+    }
+
+
+    // localise_exception
+    @Test public void localise_exception__shows_the_exception_class_and_message() {
+        assertEquals(localise_exception(new NumberFormatException("foo")), "NumberFormatException: foo");
+    }
+    public static String localise_exception(Throwable t) {
+        return t.getClass().getSimpleName() + ": " + t.getMessage();
     }
 
 
@@ -70,13 +79,14 @@ public class exceptions {
 
     // throw_checked
     @Test(expectedExceptions=IOException.class)
-    public void throw__checked_throws_a_checked_exception_without_being_declared_in_the_method_body() {
-        throw_checked(new IOException());
+    public void checked__lets_us_throw_a_checked_exception_without_being_declared_in_the_method_body() {
+        throw checked(new IOException());
     }
-    public static void throw_checked(Exception e) {
-        exceptions.<RuntimeException>throw_checked_hack(e);
+    public static RuntimeException checked(Exception e) {
+        exceptions.<RuntimeException>throw_checked(e);
+        return null;
     }
-    private static <E extends Exception> void throw_checked_hack(Exception e) throws E {
+    private static <E extends Exception> void throw_checked(Exception e) throws E {
         throw (E) e;
     }
 }

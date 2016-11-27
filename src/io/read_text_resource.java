@@ -1,13 +1,12 @@
 package jamaica.core.io;
 
-import jamaica.core.testing.TestGrouper.JavaLayer;
-import static java.lang.Thread.currentThread;
 import java.util.Scanner;
 import org.testng.annotations.Test;
 import static jamaica.core.lang.get_resource_path.get_resource_path;
+import static java.lang.Thread.currentThread;
 import static org.testng.AssertJUnit.assertEquals;
 
-public class read_text_resource implements JavaLayer {
+public class read_text_resource {
 
     /**
      * Reads a UTF-8 text resource from the classpath and returns it as a 
@@ -25,6 +24,9 @@ public class read_text_resource implements JavaLayer {
      * @param resource the name of the resource including the package 
      * @return the contents of the resource file
      */
+    @Test public void read_text_resource__reads_a_text_resource_from_the_classpath() {
+        assertEquals("This file is used for testing.", read_text_resource("io/TestResource.txt"));
+    }
     public static String read_text_resource(String resource) {
         Scanner scanner = null;
         try {
@@ -38,12 +40,5 @@ public class read_text_resource implements JavaLayer {
                 scanner.close();
             }
         }
-    }
-
-
-    @Test
-    public void test_can_read_text_resource_from_the_classpath() {
-        assertEquals(read_text_resource(get_resource_path(read_text_resource.class, "TestResource.txt")), 
-                "This file is used for testing.");
     }
 }

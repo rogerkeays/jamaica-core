@@ -5,11 +5,12 @@ import java.util.*;
 import jamaica.core.exceptions.*;
 import jamaica.core.interfaces.*;
 import org.testng.annotations.*;
+import static jamaica.core.functions.arrays.*;
 import static jamaica.core.functions.exceptions.*;
 import static jamaica.core.functions.lang.*;
 import static jamaica.core.functions.strings.*;
 import static jamaica.core.functions.testing.*;
-import static java.util.File.*;
+import static java.io.File.*;
 
 public class io {
 
@@ -109,7 +110,7 @@ public class io {
         FileOutputStream output = new FileOutputStream(tmp);
         output.write(data);
         output.close();
-        assertEquals(data, read_binary_file(tmp));
+        assert_true(arrays_match(data, read_binary_file(tmp)));
     }
     public static byte[] read_binary_file(String filename) {
         return read_binary_file(new File(filename));

@@ -33,6 +33,16 @@ public class lang {
     }
 
 
+    // b
+    @Test public void b__casts_an_int_to_a_byte() {
+        byte b = b(1);
+        assert_equals(b, (byte) 1);
+    }
+    public static byte b(int i) {
+        return (byte) i;
+    }
+
+
     // coalesce
     @Test public void coalesce__returns_the_first_object_if_is_not_null() {
         assert_equals("String", coalesce("String", "Alternative"));

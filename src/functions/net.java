@@ -1,28 +1,28 @@
 package jamaica.core.functions;
 
-import jamaica.core.exceptions.UncheckedIOException;
-import jamaica.core.testing.TestGrouper.NetworkLayer;
 import java.net.*;
 import java.io.*;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+import static jamaica.core.functions.exceptions.*;
+import static jamaica.core.functions.lang.*;
 import static jamaica.core.functions.strings.*;
-import static org.testng.Assert.*;
+import static jamaica.core.functions.testing.*;
 
-public class net implements NetworkLayer {
+public class net {
     
     // is_tcp_port_open
     @Test public void is_tcp_port_open__returns_true_if_the_given_port_is_open() throws Exception {
         final ServerSocket socket = new ServerSocket(0);
-        assertTrue(is_tcp_port_open(socket.getLocalPort()));
+        assert_true(is_tcp_port_open(socket.getLocalPort()));
     }
     @Test public void is_tcp_port_open__returns_false_if_the_given_port_is_closed() throws Exception {
         final ServerSocket socket = new ServerSocket(0);
         socket.close();
-        assertFalse(is_tcp_port_open(socket.getLocalPort()));
+        assert_true(not(is_tcp_port_open(socket.getLocalPort())));
     }
     @Test public void is_tcp_port_open__checks_the_port_on_the_given_ip_address() throws Exception {
         final ServerSocket socket = new ServerSocket(0);
-        assertTrue(is_tcp_port_open("127.0.0.1", socket.getLocalPort()));
+        assert_true(is_tcp_port_open("127.0.0.1", socket.getLocalPort()));
         // assertFalse(is_tcp_port_open("168.2.4.10", socket.getLocalPort()));  // BROKEN!!
     }
     public static boolean is_tcp_port_open(int port) {
@@ -41,13 +41,15 @@ public class net implements NetworkLayer {
             socket.close();
             return false;
         } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
+            throw checked(e);
         } catch (IOException e) {
         } finally {
             if (socket != null) {
                 try {
                     socket.close();
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                    throw checked(e);
+                }
             }
         }
         return true;

@@ -1,5 +1,6 @@
 package jamaica.core.functions;
 
+import jamaica.core.exceptions.*;
 import java.util.*;
 import org.testng.annotations.*;
 import static jamaica.core.functions.collections.*;
@@ -51,7 +52,7 @@ public class testing {
 
     // assert_throws
     @Test public void assert_throws__does_nothing_when_the_block_throws_an_exception_of_the_given_type() {
-        assert_throws(NumberFormatException.class, ()-> parse_double("foo"));
+        assert_throws(ParseDoubleException.class, ()-> parse_double("foo"));
     }
     @Test public void assert_throws__throws_an_assertion_error_when_the_block_does_not_throw_an_exception() {
         try {

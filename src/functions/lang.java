@@ -1,6 +1,7 @@
 package jamaica.core.functions;
 
 import java.io.*;
+import jamaica.core.exceptions.*;
 import jamaica.core.interfaces.*;
 import org.testng.annotations.*;
 import static java.lang.System.*;
@@ -110,8 +111,23 @@ public class lang {
     @Test public void parse_double__parses_a_string_value_into_the_equivalent_double() {
         assert_equals(parse_double("5.0"), 5.0);
     }
+    @Test public void parse_double__throws_a_parse_exception_for_invalid_values() {
+        assert_throws(ParseDoubleException.class, ()-> parse_double("foo")); 
+    }
+    @Test public void parse_double__includes_input_string_in_parse_exceptions() {
+        try {
+            parse_double("foo");
+            fail("expected an exception");
+        } catch (ParseDoubleException e) {
+            assert_equals("foo", e.value);
+        }
+    }
     public static double parse_double(String value) {
-        return Double.valueOf(value);
+        try {
+            return Double.valueOf(value);
+        } catch (NumberFormatException e) {
+            throw new ParseDoubleException(value, e.getMessage());
+        }
     }
 
 

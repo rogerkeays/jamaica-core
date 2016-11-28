@@ -2,6 +2,7 @@ package jamaica.core.functions;
 
 import java.util.*;
 import java.text.*;
+import jamaica.core.exceptions.*;
 import org.testng.annotations.*;
 import static jamaica.core.functions.exceptions.*;
 import static jamaica.core.functions.testing.*;
@@ -96,10 +97,18 @@ public class dates {
 
     // parse_iso_date
     @Test public void parse_iso_date__throws_a_parse_exception_for_non_iso_formatted_dates() {
-        assert_throws(ParseException.class, ()-> parse_iso_date("now")); 
+        assert_throws(ParseDateException.class, ()-> parse_iso_date("now")); 
     }
     @Test public void parse_iso_date__throws_a_parse_exception_for_invalid_dates() {
-        assert_throws(ParseException.class, ()-> parse_iso_date("2016-13-50")); 
+        assert_throws(ParseDateException.class, ()-> parse_iso_date("2016-13-50")); 
+    }
+    @Test public void parse_iso_date__includes_input_string_in_parse_exceptions() {
+        try {
+            parse_iso_date("2016-13-50");
+            fail("expected an exception");
+        } catch (ParseDateException e) {
+            assert_equals("2016-13-50", e.value);
+        }
     }
     @Test public void parse_iso_date__creates_a_date_with_time_12_00_in_the_local_timezone() {
         Date date = parse_iso_date("1970-01-01");
@@ -111,7 +120,7 @@ public class dates {
             PARSER.setLenient(false);
             return new Date(PARSER.parse(string).getTime() + 12 * MS_PER_HOUR);
         } catch (ParseException e) {
-            throw checked(e);
+            throw new ParseDateException(string, e.getMessage());
         }
     }
     private static final DateFormat PARSER = new SimpleDateFormat("yyyy-MM-dd");

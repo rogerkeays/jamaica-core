@@ -11,7 +11,6 @@ import static jamaica.core.functions.i18n.*;
 import static jamaica.core.functions.lang.*;
 import static jamaica.core.functions.testing.*;
 import static java.text.MessageFormat.*;
-import static org.testng.Assert.*;
 
 public class exceptions {
 
@@ -34,19 +33,19 @@ public class exceptions {
     @Test public void format_line_errors__creates_a_single_string_summarising_the_errors() {
         ExceptionTuples errors = new ExceptionTuples();
         add_tuple(errors, new NumberFormatException("foo"), 5);
-        assertEquals("Line 5: NumberFormatException: foo\n", format_line_errors(errors));
+        assert_equals("Line 5: NumberFormatException: foo\n", format_line_errors(errors));
     }
     @Test public void format_line_errors__accepts_a_function_for_localising_each_line() {
         ExceptionTuples errors = new ExceptionTuples();
         add_tuple(errors, new NumberFormatException("foo"), 5);
         add_tuple(errors, new NumberFormatException("bar"), 6);
-        assertEquals("Line 5: FOO\nLine 6: BAR\n", 
+        assert_equals("Line 5: FOO\nLine 6: BAR\n", 
                 format_line_errors(errors, e -> e.getMessage().toUpperCase()));
     }
     @Test public void format_line_errors__falls_back_to_default_localisation_if_localisation_function_returns_null() {
         ExceptionTuples errors = new ExceptionTuples();
         add_tuple(errors, new NumberFormatException("foo"), 5);
-        assertEquals("Line 5: NumberFormatException: foo\n", format_line_errors(errors, e -> null));
+        assert_equals("Line 5: NumberFormatException: foo\n", format_line_errors(errors, e -> null));
     }
     public static String format_line_errors(ExceptionTuples errors) {
         return format_line_errors(errors, null);
@@ -66,7 +65,7 @@ public class exceptions {
     // get_root_cause
     @Test public void get_root_cause__returns_the_cause_used_to_instantiate_an_exception() {
         Throwable a = new Throwable();
-        assertEquals(get_root_cause(new Throwable(a)), a);
+        assert_equals(a, get_root_cause(new Throwable(a)));
     }
     public static Throwable get_root_cause(Throwable t) {
         Throwable result = t;
@@ -79,7 +78,7 @@ public class exceptions {
 
     // localise_exception
     @Test public void localise_exception__shows_the_exception_class_and_message() {
-        assertEquals(localise_exception(new NumberFormatException("foo")), "NumberFormatException: foo");
+        assert_equals("NumberFormatException: foo", localise_exception(new NumberFormatException("foo")));
     }
     public static String localise_exception(Throwable t) {
         return t.getClass().getSimpleName() + ": " + t.getMessage();
@@ -111,19 +110,5 @@ public class exceptions {
         }
         locations.get(type).add(location);
         return map;
-    }
-
-
-    // throw_checked
-    @Test(expectedExceptions=IOException.class)
-    public void checked__lets_us_throw_a_checked_exception_without_being_declared_in_the_method_body() {
-        throw checked(new IOException());
-    }
-    public static RuntimeException checked(Exception e) {
-        exceptions.<RuntimeException>throw_checked(e);
-        return null;
-    }
-    private static <E extends Exception> void throw_checked(Exception e) throws E {
-        throw (E) e;
     }
 }

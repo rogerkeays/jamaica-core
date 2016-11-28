@@ -20,6 +20,20 @@ public class lang {
     }
 
 
+    // checked
+    @Test(expectedExceptions=IOException.class)
+    public void checked__lets_us_throw_a_checked_exception_without_being_declared_in_the_method_body() {
+        throw checked(new IOException());
+    }
+    public static RuntimeException checked(Exception e) {
+        lang.<RuntimeException>throw_checked(e);
+        return null;
+    }
+    private static <E extends Exception> void throw_checked(Exception e) throws E {
+        throw (E) e;
+    }
+
+
     // coalesce
     @Test public void coalesce__returns_the_first_object_if_is_not_null() {
         assert_equals("String", coalesce("String", "Alternative"));
@@ -141,7 +155,7 @@ public class lang {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw checked(e);
         }
     }
 }

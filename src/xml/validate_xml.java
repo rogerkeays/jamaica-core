@@ -8,8 +8,8 @@ import javax.xml.validation.SchemaFactory;
 import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
 import static jamaica.core.io.read_text_resource.read_text_resource;
-import static jamaica.core.lang.get_resource_path.get_resource_path;
-import static jamaica.core.functions.exceptions.*;
+import static jamaica.core.functions.classpath.*;
+import static jamaica.core.functions.lang.*;
 import static jamaica.core.functions.testing.*;
 
 public class validate_xml {

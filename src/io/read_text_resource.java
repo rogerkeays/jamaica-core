@@ -2,7 +2,7 @@ package jamaica.core.io;
 
 import java.util.Scanner;
 import org.testng.annotations.Test;
-import static jamaica.core.lang.get_resource_path.get_resource_path;
+import static jamaica.core.functions.classpath.*;
 import static java.lang.Thread.currentThread;
 import static org.testng.AssertJUnit.assertEquals;
 

@@ -6,6 +6,64 @@ import static jamaica.core.functions.testing.*;
 
 public class arrays {
 
+    // array_contains
+    @Test public void array_contains__returns_true_if_the_given_object_is_in_the_array() {
+        assert_true(array_contains(new String[] { "A", "B", "C", "D" }, "A"));
+        assert_true(array_contains(new String[] { "A", "B", "C", "D" }, "B"));
+        assert_true(array_contains(new String[] { "A", "B", "C", "D" }, "C"));
+        assert_true(array_contains(new String[] { "A", "B", "C", "D" }, "D"));
+    }
+    @Test public void array_contains__returns_false_if_the_given_object_is_not_in_the_array() {
+        assert_true(not(array_contains(new String[] { "A", "B", "C", "D" }, "E")));
+        assert_true(not(array_contains(new String[] { "A", "B", "C", "D" }, "F")));
+        assert_true(not(array_contains(new String[] { "A", "B", "C", "D" }, "G")));
+    }
+    @Test public void array_contains__returns_true_if_the_given_object_is_null_and_null_exists_in_the_array() {
+        assert_true(array_contains(new String[] { "A", "B", "C", null }, null));
+    }
+    @Test public void array_contains__returns_false_if_the_given_object_is_null_and_there_are_no_nulls_in_the_array() {
+        assert_true(not(array_contains(new String[] { "A", "B", "C", "D" }, null)));
+    }
+    public static <T> boolean array_contains(final T[] array, final T value) {
+        if (value == null) {
+            for (final T element : array) {
+                if (element == null) {
+                    return true;
+                }
+            }
+        } else {
+            for (final T element : array) {
+                if (element == value || value.equals(element)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    // array_contains
+    @Test public void array_contains__returns_true_if_the_given_int_is_in_the_array() {
+        assert_true(array_contains(new int[] { 1, 2, 3, 4 }, 1));
+        assert_true(array_contains(new int[] { 1, 2, 3, 4 }, 2));
+        assert_true(array_contains(new int[] { 1, 2, 3, 4 }, 3));
+        assert_true(array_contains(new int[] { 1, 2, 3, 4 }, 4));
+    }
+    @Test public void array_contains__returns_false_if_the_given_int_is_not_in_the_array() {
+        assert_true(not(array_contains(new int[] { 1, 2, 3, 4 }, 5)));
+        assert_true(not(array_contains(new int[] { 1, 2, 3, 4 }, 6)));
+        assert_true(not(array_contains(new int[] { 1, 2, 3, 4 }, 7)));
+    }
+    public static boolean array_contains(final int[] array, final int value) {
+        for (final int element : array) {
+            if (element == value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     // arrays_match
     @Test public void arrays_match__returns_true_if_the_elements_of_two_byte_arrays_equals() {
         assert_true(arrays_match(new byte[] { b(1), b(2), b(3) }, new byte[] { b(1), b(2), b(3) }));

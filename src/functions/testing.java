@@ -43,7 +43,7 @@ public class testing {
         }
     }
     public static void assert_equals(Object expected, Object actual) {
-        if (!are_equal(expected, actual)) {
+        if (not(eq(expected, actual))) {
             throw new AssertionError("EXPECTED: " + expected.toString() + " GOT: " + actual.toString());
         }
     }
@@ -119,7 +119,7 @@ public class testing {
         assert_true(create_test_filename().startsWith("target/"));
     }
     @Test public void create_test_filename__creates_unique_filenames() {
-        assert_true(not(are_equal(create_test_filename(), create_test_filename())));
+        assert_true(not(eq(create_test_filename(), create_test_filename())));
     }
     public static String create_test_filename() {
         sleep(1);

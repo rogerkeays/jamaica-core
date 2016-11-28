@@ -1,12 +1,11 @@
 package jamaica.core.functions;
 
-import jamaica.core.exceptions.*;
-import jamaica.core.testing.TestGrouper.JavaLayer;
 import java.util.*;
 import java.text.*;
 import org.testng.annotations.*;
+import static jamaica.core.functions.exceptions.*;
+import static jamaica.core.functions.testing.*;
 import static java.lang.System.currentTimeMillis;
-import static org.testng.AssertJUnit.*;
 
 public class dates {
     public static final int DAY_START_HOUR = 4;
@@ -66,11 +65,11 @@ public class dates {
 
     // format_iso_date
     @Test public void format_iso_date__formats_the_date_using_the_local_timezone() {
-        assertEquals("1970-01-01", format_iso_date(
+        assert_equals("1970-01-01", format_iso_date(
                 new Date(-1 * TimeZone.getDefault().getOffset(0)))); 
     }
     @Test public void format_iso_date__formats_a_parsed_date_to_its_original_value() {
-        assertEquals("1970-01-01", format_iso_date(parse_iso_date("1970-01-01")));
+        assert_equals("1970-01-01", format_iso_date(parse_iso_date("1970-01-01")));
     }
     public static String format_iso_date(Date date) {
         return FORMATTER.format(date);
@@ -80,10 +79,10 @@ public class dates {
 
     // get_last_day_of_the_month
     @Test public void get_last_day_of_the_month__returns_an_iso_formatted_date_for_the_last_day_of_the_given_month() {
-        assertEquals(get_last_day_of_the_month(2013, 3), "2013-03-31");
-        assertEquals(get_last_day_of_the_month(2013, 2), "2013-02-28");
-        assertEquals(get_last_day_of_the_month(2012, 2), "2012-02-29");
-        assertEquals(get_last_day_of_the_month(2012, 6), "2012-06-30");
+        assert_equals(get_last_day_of_the_month(2013, 3), "2013-03-31");
+        assert_equals(get_last_day_of_the_month(2013, 2), "2013-02-28");
+        assert_equals(get_last_day_of_the_month(2012, 2), "2012-02-29");
+        assert_equals(get_last_day_of_the_month(2012, 6), "2012-06-30");
     }
     public static String get_last_day_of_the_month(int year, int month) {
         Calendar calendar = Calendar.getInstance();
@@ -96,28 +95,23 @@ public class dates {
 
 
     // parse_iso_date
-    @Test(expectedExceptions=UncheckedParseException.class)
-    public void parse_iso_date__throws_a_parse_exception_for_non_iso_formatted_dates() {
-        parse_iso_date("now"); 
+    @Test public void parse_iso_date__throws_a_parse_exception_for_non_iso_formatted_dates() {
+        assert_throws(ParseException.class, ()-> parse_iso_date("now")); 
     }
-    @Test(expectedExceptions=UncheckedParseException.class)
-    public void parse_iso_date__throws_a_parse_exception_for_invalid_dates() {
-        parse_iso_date("2016-13-50"); 
+    @Test public void parse_iso_date__throws_a_parse_exception_for_invalid_dates() {
+        assert_throws(ParseException.class, ()-> parse_iso_date("2016-13-50")); 
     }
     @Test public void parse_iso_date__creates_a_date_with_time_12_00_in_the_local_timezone() {
         Date date = parse_iso_date("1970-01-01");
-        assertEquals(12, date.getHours());
-        assertEquals(0, date.getMinutes());
+        assert_equals(12, date.getHours());
+        assert_equals(0, date.getMinutes());
     }
     public static Date parse_iso_date(String string) {
-        if (!string.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")) {
-            throw new UncheckedParseException("Invalid date format: " + string);
-        }
         try {
             PARSER.setLenient(false);
             return new Date(PARSER.parse(string).getTime() + 12 * MS_PER_HOUR);
         } catch (ParseException e) {
-            throw new UncheckedParseException("Invalid date format: " + string, e);
+            throw checked(e);
         }
     }
     private static final DateFormat PARSER = new SimpleDateFormat("yyyy-MM-dd");

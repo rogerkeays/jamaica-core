@@ -1,37 +1,13 @@
 package jamaica.core.functions;
 
+import java.io.*;
 import jamaica.core.interfaces.*;
 import org.testng.annotations.*;
 import static java.lang.System.*;
+import static jamaica.core.functions.exceptions.*;
 import static jamaica.core.functions.testing.*;
 
 public class lang {
-
-    // are_equal
-    @Test public void are_equal__returns_true_if_both_parameters_are_null() {
-        assert_true(are_equal(null, null));
-    }
-    @Test public void are_equal__returns_true_if_both_parameters_are_not_null_and_equal() {
-        assert_true(are_equal("Hello", "Hello"));
-    }
-    @Test public void are_equal__returns_false_if_only_the_first_parameter_is_null() {
-        assert_true(not(are_equal(null, "Hello")));
-    }
-    @Test public void are_equal__returns_false_if_only_the_second_parameter_is_null() {
-        assert_true(not(are_equal("Hello", null)));
-    }
-    public static boolean are_equal(Object o1, Object o2) {
-        if (o1 == null && o2 == null) {
-            return true;
-        } else if (o1 == null && o2 != null) {
-            return false;
-        } else if (o2 == null && o1 != null) {
-            return false;
-        } else {
-            return o1.equals(o2);
-        }
-    }
-
 
     // b
     @Test public void b__casts_an_int_to_a_byte() {
@@ -55,6 +31,52 @@ public class lang {
     }
     public static <T extends Object> T coalesce(T $1, T $2) {
         return $1 == null || "".equals($1) ? $2 : $1;
+    }
+
+
+    // eq
+    @Test public void eq__returns_true_if_both_parameters_are_null() {
+        assert_true(eq(null, null));
+    }
+    @Test public void eq__returns_true_if_both_parameters_are_not_null_and_equal() {
+        assert_true(eq("Hello", "Hello"));
+    }
+    @Test public void eq__returns_false_if_only_the_first_parameter_is_null() {
+        assert_true(not(eq(null, "Hello")));
+    }
+    @Test public void eq__returns_false_if_only_the_second_parameter_is_null() {
+        assert_true(not(eq("Hello", null)));
+    }
+    public static boolean eq(Object o1, Object o2) {
+        if (o1 == null && o2 == null) {
+            return true;
+        } else if (o1 == null && o2 != null) {
+            return false;
+        } else if (o2 == null && o1 != null) {
+            return false;
+        } else {
+            return o1.equals(o2);
+        }
+    }
+
+
+    // exec
+    @Test public void test_successfully_execed_command_returns_zero() {
+        assert_equals(0, exec("ls"));
+    }
+    @Test public void test_unsuccessfully_execed_command_returns_non_zero_value() {
+        assert_true(not(eq(0, exec("ls /foo/bar/doesnt/exist"))));
+    }
+    public static int exec(String command) {
+        try {
+            Process p = Runtime.getRuntime().exec(command);
+            p.waitFor();
+            return p.exitValue();
+        } catch (IOException e) {
+            throw checked(e);
+        } catch (InterruptedException e) {
+            throw checked(e);
+        }
     }
 
 

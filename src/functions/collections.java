@@ -48,7 +48,7 @@ public class collections {
 
 
     // elements_match
-    @Test public void elements_match__returns_true_if_the_elements_of_the_list_are_equal() {
+    @Test public void elements_match__returns_true_if_the_elements_of_the_list_equals() {
         assert_true(elements_match(as_list(1, 2, 3), as_list(1, 2, 3)));
     }
     @Test public void elements_match__returns_false_if_the_lists_do_not_contain_the_same_elements() {

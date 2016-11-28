@@ -1,13 +1,12 @@
 package jamaica.core.xml;
 
-import jamaica.core.testing.TestGrouper.APILayer;
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 import java.util.List;
 import org.testng.annotations.Test;
 import static org.testng.AssertJUnit.assertEquals;
 
-public class escape_xml implements APILayer {
+public class escape_xml {
     public final static String ESCAPE_CHARS = "<>&\"\'";
     public final static List<String> ESCAPE_STRINGS = unmodifiableList(asList(
             new String[] { "&lt;", "&gt;", "&amp;", "&quot;", "&apos;" }));

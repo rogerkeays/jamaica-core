@@ -2,7 +2,6 @@ package jamaica.core.functions;
 
 import java.io.*;
 import java.util.*;
-import jamaica.core.types.*;
 import org.testng.annotations.*;
 import static jamaica.core.functions.collections.*;
 import static jamaica.core.functions.io.*;

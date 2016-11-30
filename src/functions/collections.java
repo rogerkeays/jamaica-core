@@ -1,6 +1,5 @@
 package jamaica.core.functions;
 
-import jamaica.core.interfaces.*;
 import java.util.*;
 import java.lang.reflect.*;
 import org.testng.annotations.*;

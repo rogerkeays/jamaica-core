@@ -2,13 +2,22 @@ package jamaica.core.functions;
 
 import java.io.*;
 import jamaica.core.exceptions.*;
-import jamaica.core.interfaces.*;
 import org.testng.annotations.*;
 import static java.lang.System.*;
 import static jamaica.core.functions.exceptions.*;
 import static jamaica.core.functions.testing.*;
 
 public class lang {
+
+    // functional interfaces
+    public static interface Supplier<T> { T get(); }
+    public static interface Consumer<T> { void accept(T t); }
+    public static interface Predicate<T> { boolean apply(T t); }
+    public static interface Function<T, R> { R apply(T t); }
+    public static interface BiConsumer<T, U> { void accept(T t, U u); }
+    public static interface BiFunction<T, U, R> { R apply(T t, U u); }
+    public static interface TriFunction<T, U, V, R> { R apply(T t, U u, V v); }
+
 
     // b
     @Test public void b__casts_an_int_to_a_byte() {
@@ -159,3 +168,4 @@ public class lang {
         }
     }
 }
+

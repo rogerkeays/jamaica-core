@@ -2,11 +2,9 @@ package jamaica.core.functions;
 
 import java.io.*;
 import java.util.*;
-import jamaica.core.exceptions.*;
 import jamaica.core.types.*;
 import org.testng.annotations.*;
 import static jamaica.core.functions.collections.*;
-import static jamaica.core.functions.exceptions.*;
 import static jamaica.core.functions.io.*;
 import static jamaica.core.functions.i18n.*;
 import static jamaica.core.functions.lang.*;
@@ -25,6 +23,14 @@ public class csv {
         public LineException(int line, Throwable exception) {
             this.line = line;
             this.exception = exception;
+        }
+    }
+    public class MissingFieldsException extends RuntimeException {
+        public final int required;
+        public final int actual;
+        public MissingFieldsException(int required, int actual) {
+            this.required = required;
+            this.actual = actual;
         }
     }
 

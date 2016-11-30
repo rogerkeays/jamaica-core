@@ -3,7 +3,6 @@ package jamaica.core.functions;
 import java.net.*;
 import java.io.*;
 import org.testng.annotations.*;
-import static jamaica.core.functions.exceptions.*;
 import static jamaica.core.functions.lang.*;
 import static jamaica.core.functions.strings.*;
 import static jamaica.core.functions.testing.*;

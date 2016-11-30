@@ -2,10 +2,8 @@ package jamaica.core.functions;
 
 import java.io.*;
 import java.util.*;
-import jamaica.core.exceptions.*;
 import org.testng.annotations.*;
 import static jamaica.core.functions.arrays.*;
-import static jamaica.core.functions.exceptions.*;
 import static jamaica.core.functions.lang.*;
 import static jamaica.core.functions.strings.*;
 import static jamaica.core.functions.testing.*;

@@ -1,13 +1,26 @@
 package jamaica.core.functions;
 
 import java.io.*;
-import jamaica.core.exceptions.*;
 import org.testng.annotations.*;
 import static java.lang.System.*;
-import static jamaica.core.functions.exceptions.*;
 import static jamaica.core.functions.testing.*;
 
 public class lang {
+
+    // custom exceptions
+    public static class ValueException extends RuntimeException {
+        public Object value;
+        public String message;
+    }
+    public static <T extends ValueException> T set_value(Object value, T exception) {
+        exception.value = value;
+        return exception;
+    }
+    public static <T extends ValueException> T set_message(String message, T exception) {
+        exception.message = message;
+        return exception;
+    }
+
 
     // functional interfaces
     public static interface Supplier<T> { T get(); }
@@ -104,6 +117,20 @@ public class lang {
     }
 
 
+    // get_root_cause
+    @Test public void get_root_cause__returns_the_cause_used_to_instantiate_an_exception() {
+        Throwable a = new Throwable();
+        assert_equals(a, get_root_cause(new Throwable(a)));
+    }
+    public static Throwable get_root_cause(Throwable t) {
+        Throwable result = t;
+        while (result.getCause() != null) {
+            result = result.getCause();
+        }
+        return result;
+    }
+
+
     // if_null
     @Test public void if_null__returns_the_first_parameter_if_it_is_not_null() {
         String notNull = "Hello";
@@ -149,9 +176,10 @@ public class lang {
         try {
             return Double.valueOf(value);
         } catch (NumberFormatException e) {
-            throw new ParseDoubleException(value, e.getMessage());
+            throw set_value(value, set_message(e.getMessage(), new ParseDoubleException()));
         }
     }
+    public static class ParseDoubleException extends ValueException {}
 
 
     // sleep

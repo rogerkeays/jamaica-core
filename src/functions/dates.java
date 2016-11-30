@@ -2,9 +2,8 @@ package jamaica.core.functions;
 
 import java.util.*;
 import java.text.*;
-import jamaica.core.exceptions.*;
 import org.testng.annotations.*;
-import static jamaica.core.functions.exceptions.*;
+import static jamaica.core.functions.lang.*;
 import static jamaica.core.functions.testing.*;
 import static java.lang.System.currentTimeMillis;
 
@@ -120,10 +119,11 @@ public class dates {
             PARSER.setLenient(false);
             return new Date(PARSER.parse(string).getTime() + 12 * MS_PER_HOUR);
         } catch (ParseException e) {
-            throw new ParseDateException(string, e.getMessage());
+            throw set_value(string, set_message(e.getMessage(), new ParseDateException()));
         }
     }
     private static final DateFormat PARSER = new SimpleDateFormat("yyyy-MM-dd");
+    public static class ParseDateException extends ValueException {}
 
 
     /**

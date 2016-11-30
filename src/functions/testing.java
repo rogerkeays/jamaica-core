@@ -1,12 +1,19 @@
 package jamaica.core.functions;
 
-import jamaica.core.exceptions.*;
 import java.util.*;
+import org.testng.*;
 import org.testng.annotations.*;
 import static jamaica.core.functions.collections.*;
 import static jamaica.core.functions.lang.*;
 
 public class testing {
+    public static class KnownDefectException extends SkipException {
+        public KnownDefectException(String message) { super(message); }
+    }
+    public static class ManualTestException extends SkipException {
+        public ManualTestException(String message) { super(message); }
+    }
+
 
     // assert_contains
     @Test public void assert_contains__does_nothing_if_the_haystack_contains_the_needle() {

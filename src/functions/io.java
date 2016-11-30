@@ -179,4 +179,26 @@ public class io {
             throw checked(e);
         }
     }
+
+
+    // read_text_resource
+    @Test public void read_text_resource__reads_a_text_resource_from_the_classpath() {
+        String random = create_random_string();
+        write_text_file("target/classes/TestResource.txt", random).deleteOnExit();
+        assert_equals(random, read_text_resource("TestResource.txt"));
+    }
+    public static String read_text_resource(String resource) {
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(Thread.currentThread()
+                    .getContextClassLoader()
+                    .getResourceAsStream(resource))
+                    .useDelimiter("\\A");
+            return scanner.next();
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
+        }
+    }
 }

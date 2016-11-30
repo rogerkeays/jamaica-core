@@ -7,8 +7,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
-import static jamaica.core.io.read_text_resource.read_text_resource;
 import static jamaica.core.functions.classpath.*;
+import static jamaica.core.functions.io.*;
 import static jamaica.core.functions.lang.*;
 import static jamaica.core.functions.testing.*;
 

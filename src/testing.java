@@ -114,7 +114,7 @@ public class testing {
 
     // create_random_string
     @Test public void create_random_string__creates_two_unique_strings_when_called_twice() {
-        assert_true(!create_random_string().equals(create_random_string()));
+        assert_true(not(create_random_string().equals(create_random_string())));
     }
     public static String create_random_string() {
         sleep(1);

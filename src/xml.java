@@ -52,16 +52,16 @@ public class xml {
 
     // validate_xml
     @Test public void test_valid_xml_document_validates() throws SAXException {
-        assert_true(validate_xml(read_text_resource("functions/xml_test_schema.xsd"), 
-            read_text_resource("functions/xml_test_document.xml")));
+        assert_true(validate_xml(read_text_resource("xml_test_schema.xsd"), 
+            read_text_resource("xml_test_document.xml")));
     }
     @Test public void test_badly_formed_xml_document_throws_an_exception() throws SAXException {
         assert_throws(SAXException.class, ()-> 
-            validate_xml(read_text_resource("functions/xml_test_schema.xsd"), "not xml"));
+            validate_xml(read_text_resource("xml_test_schema.xsd"), "not xml"));
     }
     @Test public void test_invalid_formed_xml_document_throws_an_exception() throws SAXException {
         assert_throws(SAXException.class, ()-> 
-            validate_xml(read_text_resource("functions/xml_test_schema.xsd"), "<invalid>tag</invalid>"));
+            validate_xml(read_text_resource("xml_test_schema.xsd"), "<invalid>tag</invalid>"));
     }
     public static boolean validate_xml(String schema, String xml) {
         try {

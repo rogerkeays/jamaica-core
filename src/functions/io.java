@@ -55,54 +55,6 @@ public class io {
     }
 
 
-    // process_lines
-    @Test public void process_lines__executes_the_processing_function_on_each_line_in_the_file() {
-        List<String> lines = new LinkedList<>();
-        process_lines(write_tmp_file("1\n2\n3\n4"), line -> lines.add(line));
-        assert_equals(4, lines.size());
-    }
-    @Test public void process_lines__collects_processing_exceptions_using_an_exception_tuples() {
-        try {
-            process_lines(write_tmp_file("1\n2\n3\n4"), line -> { throw new NumberFormatException(line); });
-            fail("expected exception tuples");
-        } catch (ExceptionTuples errors) {
-            assert_equals(4, errors.list.size());
-        }
-    }
-    public static File process_lines(File file, Consumer<String> processing_function) {
-        BufferedReader reader = null;
-        try {
-            int i = 1;
-            reader = new BufferedReader(new FileReader(file));
-            final ExceptionTuples errors = new ExceptionTuples();
-            for (String line; (line = reader.readLine()) != null; i++) {
-                try {
-                    processing_function.accept(line);
-                } catch (Exception e) {
-                    add_tuple(errors, e, i);
-                }
-            }
-            if (errors.list.isEmpty()) {
-                return file;
-            } else {
-                throw errors;
-            }
-        } catch (FileNotFoundException e) {
-            throw checked(e); 
-        } catch (IOException e) {
-            throw checked(e);
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    throw checked(e);
-                }
-            }
-        }
-    }
-
-
     // read_binary_file
     @Test public void read_binary_file__can_read_binary_file_from_disk() throws Exception {
         byte[] data = new byte[] { (byte) 0x05, (byte) 0x13, (byte) 0x44, (byte) 0x99 };

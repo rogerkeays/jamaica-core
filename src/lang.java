@@ -1,9 +1,9 @@
-package jamaica.core.functions;
+package jamaica.core;
 
 import java.io.*;
 import org.testng.annotations.*;
 import static java.lang.System.*;
-import static jamaica.core.functions.testing.*;
+import static jamaica.core.testing.*;
 
 public class lang {
 

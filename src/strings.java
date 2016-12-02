@@ -1,4 +1,4 @@
-package jamaica.core.functions;
+package jamaica.core;
 
 import org.testng.annotations.*;
 import static org.testng.AssertJUnit.*;

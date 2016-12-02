@@ -1,7 +1,7 @@
-package jamaica.core.functions;
+package jamaica.core;
 
 import org.testng.annotations.*;
-import static jamaica.core.functions.testing.*;
+import static jamaica.core.testing.*;
 
 public class i18n {
 

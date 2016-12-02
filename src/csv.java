@@ -1,13 +1,13 @@
-package jamaica.core.functions;
+package jamaica.core;
 
 import java.io.*;
 import java.util.*;
 import org.testng.annotations.*;
-import static jamaica.core.functions.collections.*;
-import static jamaica.core.functions.io.*;
-import static jamaica.core.functions.i18n.*;
-import static jamaica.core.functions.lang.*;
-import static jamaica.core.functions.testing.*;
+import static jamaica.core.collections.*;
+import static jamaica.core.io.*;
+import static jamaica.core.i18n.*;
+import static jamaica.core.lang.*;
+import static jamaica.core.testing.*;
 import static java.text.MessageFormat.*;
 
 public class csv {

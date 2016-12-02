@@ -7,10 +7,10 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
 import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
-import static jamaica.core.functions.collections.*;
-import static jamaica.core.functions.io.*;
-import static jamaica.core.functions.lang.*;
-import static jamaica.core.functions.testing.*;
+import static jamaica.core.collections.*;
+import static jamaica.core.io.*;
+import static jamaica.core.lang.*;
+import static jamaica.core.testing.*;
 
 public class xml {
     private final static String UNICODE_LOW = "" + ((char) 0x20); //space

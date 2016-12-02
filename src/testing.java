@@ -1,10 +1,10 @@
-package jamaica.core.functions;
+package jamaica.core;
 
 import java.util.*;
 import org.testng.*;
 import org.testng.annotations.*;
-import static jamaica.core.functions.collections.*;
-import static jamaica.core.functions.lang.*;
+import static jamaica.core.collections.*;
+import static jamaica.core.lang.*;
 
 public class testing {
     public static class KnownDefectException extends SkipException {

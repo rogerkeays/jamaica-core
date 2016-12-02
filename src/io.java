@@ -1,12 +1,12 @@
-package jamaica.core.functions;
+package jamaica.core;
 
 import java.io.*;
 import java.util.*;
 import org.testng.annotations.*;
-import static jamaica.core.functions.arrays.*;
-import static jamaica.core.functions.lang.*;
-import static jamaica.core.functions.strings.*;
-import static jamaica.core.functions.testing.*;
+import static jamaica.core.arrays.*;
+import static jamaica.core.lang.*;
+import static jamaica.core.strings.*;
+import static jamaica.core.testing.*;
 import static java.io.File.*;
 
 public class io {

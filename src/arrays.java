@@ -1,8 +1,8 @@
-package jamaica.core.functions;
+package jamaica.core;
 
 import org.testng.annotations.*;
-import static jamaica.core.functions.lang.*;
-import static jamaica.core.functions.testing.*;
+import static jamaica.core.lang.*;
+import static jamaica.core.testing.*;
 
 public class arrays {
 

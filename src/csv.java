@@ -24,7 +24,7 @@ public class csv {
             this.exception = exception;
         }
     }
-    public class MissingFieldsException extends RuntimeException {
+    public static class MissingFieldsException extends RuntimeException {
         public final int required;
         public final int actual;
         public MissingFieldsException(int required, int actual) {

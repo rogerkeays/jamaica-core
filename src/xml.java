@@ -1,4 +1,4 @@
-package jamaica.core.xml;
+package jamaica.core;
 
 import java.util.*;
 import java.io.*;

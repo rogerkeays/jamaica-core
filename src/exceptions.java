@@ -97,20 +97,6 @@ import java.util.concurrent.Callable;
  * This is possible because of Java's runtime type erasure. See the code for
  * implementation details.
  * 
- * ## Installation
- * 
- * `unchecked` is a single java source file that you can drop into your project.
- * 
- * Copy the java source to your project:
- * 
- *     mkdir -p src/jamaica/unchecked
- *     cd src/jamaica/unchecked
- *     wget https://github.com/rogerkeays/unchecked/raw/main/Functions.java
- * 
- * Finally, import to use in your code:
- * 
- *     import static jamaica.unchecked.Functions.*;
- * 
  * ## Testing
  * 
  * Tests are run by executing the `main` method of this class . No output means
